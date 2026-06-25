@@ -1,0 +1,139 @@
+exp_name: asi_stage2_psnr_seed
+output_dir: /home/cyprian/Work/projects/cosmos-tokenizer/training/outputs_asi
+checkpoint_dir:
+resume_from:
+start_stage: 2
+end_stage: 2
+stage1_checkpoint: /home/cyprian/Work/projects/cosmos-tokenizer/training/pretrained/Baseline_64/checkpoints/stage1_checkpoint_best.pt
+device: cuda
+distributed: false
+world_size: 1
+local_rank: 0
+seed: 42
+deterministic: false
+log_image_every: 500
+num_log_images: 4
+num_val_samples: 256
+compute_fid: false
+
+model:
+  spatial_compression: 16
+  latent_channels: 16
+  z_channels: 16
+  z_factor: 1
+  patch_size: 4
+  patch_method: haar
+  channels: 64
+  channels_mult: [1, 2, 2]
+  num_res_blocks: 1
+  attn_resolutions: [16]
+  dropout: 0.0
+  formulation: AE
+  in_channels: 3
+  out_channels: 3
+  resolution: 64
+  name: CI16x16-asi-psnr-search
+
+data:
+  train_data_dir: /home/cyprian/Work/datasets/clean_64
+  val_data_dir: /home/cyprian/Work/datasets/clean_64
+  resolution_buckets: [64]
+  use_augmentation: true
+  horizontal_flip_prob: 0.5
+  vertical_flip_prob: 0.0
+  color_jitter: false
+  color_jitter_prob: 0.0
+  brightness_jitter: 0.05
+  contrast_jitter: 0.05
+  saturation_jitter: 0.05
+  hue_jitter: 0.02
+  random_crop_prob: 0.0
+  random_crop_scale_min: 0.9
+  random_crop_scale_max: 1.0
+  gaussian_noise_std: 0.0
+  blur_prob: 0.0
+  blur_kernel_size: 3
+  jpeg_prob: 0.0
+  jpeg_quality_min: 90
+  jpeg_quality_max: 100
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: true
+  ensure_divisible_by: 16
+  longest_side_resize: true
+
+stage1:
+  max_iterations: 200000
+  batch_size: 32
+  gradient_accumulation_steps: 1
+  learning_rate: 0.0001
+  weight_decay: 0.01
+  betas: [0.9, 0.999]
+  warmup_iterations: 5000
+  lr_schedule: cosine
+  min_lr: 0.000001
+  lambda_l1: 1.0
+  lambda_mse: 0.0
+  lambda_charbonnier: 0.0
+  lambda_huber: 0.0
+  lambda_gradient: 0.0
+  lambda_laplacian: 0.0
+  lambda_ssim: 0.0
+  lambda_perceptual: 1.0
+  charbonnier_eps: 0.001
+  huber_delta: 0.01
+  perceptual_layers: [relu1_2, relu2_2, relu3_4]
+  perceptual_weights: [1.0, 1.0, 1.0]
+  use_amp: true
+  dtype: bfloat16
+  checkpoint_every: 10000
+  validate_every: 5000
+  log_every: 100
+  use_ema: true
+  ema_decay: 0.9999
+
+stage2:
+  max_iterations: 2000
+  batch_size: 16
+  gradient_accumulation_steps: 1
+  learning_rate: 0.00005
+  weight_decay: 0.01
+  betas: [0.9, 0.999]
+  disc_learning_rate: 0.0001
+  disc_weight_decay: 0.01
+  disc_betas: [0.5, 0.999]
+  warmup_iterations: 100
+  lr_schedule: cosine
+  min_lr: 0.0000001
+  lambda_l1: 1.0
+  lambda_mse: 0.5
+  lambda_charbonnier: 0.0
+  lambda_huber: 0.0
+  lambda_gradient: 0.02
+  lambda_laplacian: 0.0
+  lambda_ssim: 0.0
+  lambda_perceptual: 0.25
+  charbonnier_eps: 0.001
+  huber_delta: 0.01
+  lambda_flow: 0.0
+  lambda_gram: 0.0
+  lambda_adversarial: 0.0
+  adversarial_loss_type: hinge
+  disc_start_iteration: 1000000
+  disc_update_freq: 1
+  use_amp: true
+  dtype: bfloat16
+  checkpoint_every: 2000
+  validate_every: 1000
+  log_every: 50
+  use_ema: true
+  ema_decay: 0.9999
+
+openpanel:
+  enabled: true
+  project: cosmos-tokenizer
+  experiment: asi-stage2-psnr-seed
+  name: asi-stage2-psnr-seed
+  tags: [asi, asi-evolve, psnr-target-30, clean_64]
+  silent: true
+  log_data: true

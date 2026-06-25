@@ -1,0 +1,44 @@
+You are designing Stage 2 fine-tuning YAML configs for a Cosmos CI16 image tokenizer. The goal is to improve validation reconstruction PSNR toward 30 dB while also lowering validation L1.
+
+Return a complete YAML config only, inside XML tags:
+<name>short_snake_case_name</name>
+<motivation>brief rationale for the proposed loss/augmentation/training recipe</motivation>
+<code>YAML config here, no markdown fences</code>
+
+## Task
+{{ task_description }}
+
+## Prior Experiments
+{% for node in context_nodes %}
+### {{ node.name }}
+Motivation: {{ node.motivation }}
+Analysis: {{ node.analysis }}
+Score: {{ node.score }}
+{% if node.results %}Results: {{ node.results }}{% endif %}
+{% if node.code %}
+Config:
+{{ node.code }}
+{% endif %}
+{% endfor %}
+
+## Retrieved Research Notes
+{% for item in cognition_items %}
+- {{ item.content }}
+{% endfor %}
+
+## Search Guidance
+- Keep the architecture exactly compatible with Baseline_64.
+- Keep `start_stage: 2`, `end_stage: 2`, and the Stage 1 checkpoint path.
+- Keep OpenPanel enabled:
+  - `openpanel.enabled: true`
+  - `openpanel.project: cosmos-tokenizer`
+  - `openpanel.name` should be a concise candidate label such as `mse6_l1_06_charb01_noaug`
+  - include tags: `asi`, `asi-evolve`, `psnr-target-30`, `clean_64`
+- Prefer PSNR-aligned recipes before perceptual-only recipes.
+- Strong candidates often use a blend of L1 plus MSE or Charbonnier, with small edge/SSIM terms.
+- Use adversarial and Gram loss only when there is a clear reason; high adversarial weight can reduce PSNR.
+- Keep augmentations mild. Clean reconstruction validation usually prefers limited distribution shift.
+- Use scouting evaluation budgets: `stage2.max_iterations` between 1000 and 3000; prefer 2000-3000 when a recipe may need time to separate from noise.
+- Ensure validation happens during the run: `stage2.validate_every` should usually be 500 or 1000 and less than or equal to half of `stage2.max_iterations`.
+
+Do not include prose outside the XML tags.

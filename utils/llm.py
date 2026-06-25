@@ -302,5 +302,13 @@ def create_llm_client(config: Dict[str, Any]) -> LLMClient:
     }
 
     extra_params = {k: v for k, v in api_config.items() if k not in framework_keys}
+    provider = str(api_config.get("provider", "")).lower()
+    model = str(framework_params["model"])
+    if provider == "openai" and model.startswith("gpt-5"):
+        if "max_completion_tokens" not in extra_params and "max_tokens" in extra_params:
+            extra_params["max_completion_tokens"] = extra_params["max_tokens"]
+        extra_params.pop("max_tokens", None)
+        extra_params.pop("temperature", None)
+        extra_params.pop("top_p", None)
 
     return LLMClient(**framework_params, **extra_params)

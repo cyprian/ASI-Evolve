@@ -2,3 +2,10 @@
 *.env
 .evolve_runs/
 .test_tmp/
+experiments/*/__pycache__/
+experiments/*/cognition_data/
+experiments/*/database_data/
+experiments/*/failed_runs_archive/
+experiments/*/logs/
+experiments/*/pipeline_state.json
+experiments/*/steps/
