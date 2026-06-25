@@ -15,7 +15,7 @@ Every candidate is normalized by `evaluator.py` before training:
 - scouting Stage 2 evaluation budget, clamped to 500-3000 iterations
 - OpenPanel ML forced on:
   - project: `cosmos-tokenizer`
-  - tags include `asi`, `asi-evolve`, `psnr-target-30`, `clean_64`
+  - tags include `asi`, `asi-evolve`, `psnr-target-32`, `clean_64`
 
 Run from the ASI-Evolve repo root:
 
@@ -35,4 +35,4 @@ The evaluator reports:
 eval_score = validation_psnr - 10.0 * validation_loss_l1
 ```
 
-and records whether `validation_psnr >= 30.0`.
+and records whether `validation_psnr >= 32.0`.

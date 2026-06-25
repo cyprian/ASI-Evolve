@@ -5,7 +5,7 @@
 Scout Stage 2 fine-tuning configurations for the 16x compressed continuous-image tokenizer that improve validation reconstruction quality on `clean_64`.
 
 Target:
-- Reach validation PSNR >= 30.0 dB.
+- Reach validation PSNR >= 32.0 dB.
 - Also reduce validation L1 where possible.
 
 Primary score used by ASI-Evolve:

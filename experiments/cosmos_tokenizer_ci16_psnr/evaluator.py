@@ -30,7 +30,7 @@ BASE_STAGE1_CHECKPOINT = (
 )
 OUTPUT_ROOT = TRAINING_ROOT / "outputs_asi"
 OPENPANEL_PROJECT = "cosmos-tokenizer"
-PSNR_TARGET = 30.0
+PSNR_TARGET = 32.0
 
 FIXED_MODEL = {
     "spatial_compression": 16,
@@ -231,7 +231,7 @@ def normalize_config(candidate: dict[str, Any], step_dir: Path) -> dict[str, Any
     openpanel["name"] = run_label
     openpanel["tags"] = sorted(set(
         list(openpanel.get("tags") or [])
-        + ["asi", "asi-evolve", "psnr-target-30", "clean_64", step_name, run_label]
+        + ["asi", "asi-evolve", "psnr-target-32", "clean_64", step_name, run_label]
     ))
     openpanel["silent"] = True
     openpanel["log_data"] = True

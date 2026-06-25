@@ -1,4 +1,4 @@
-You are analyzing a Cosmos CI16 tokenizer Stage 2 fine-tuning experiment. Focus on validation PSNR, validation L1, and whether the loss/augmentation recipe plausibly moves toward PSNR >= 30 dB.
+You are analyzing a Cosmos CI16 tokenizer Stage 2 fine-tuning experiment. Focus on validation PSNR, validation L1, and whether the loss/augmentation recipe plausibly moves toward PSNR >= 32 dB.
 
 ## Current Config
 {{ code }}
@@ -21,10 +21,12 @@ Config:
 {% endif %}
 
 Analyze:
-1. Whether PSNR improved and how close it is to 30 dB.
+1. Whether PSNR improved and how close it is to 32 dB.
 2. Whether validation L1 improved or regressed.
 3. Which loss weights, optimizer choices, or augmentations likely helped or hurt.
 4. A concrete next move for ASI to try.
+
+The current target is 32 dB. Treat any prior experiment analysis that mentions a 30 dB target as historical context from the older target.
 
 Respond using XML tags:
 <analysis>detailed analysis here</analysis>

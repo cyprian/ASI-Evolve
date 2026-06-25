@@ -134,6 +134,6 @@ openpanel:
   project: cosmos-tokenizer
   experiment: asi-stage2-psnr-seed
   name: asi-stage2-psnr-seed
-  tags: [asi, asi-evolve, psnr-target-30, clean_64]
+  tags: [asi, asi-evolve, psnr-target-32, clean_64]
   silent: true
   log_data: true

@@ -1,4 +1,4 @@
-You are designing Stage 2 fine-tuning YAML configs for a Cosmos CI16 image tokenizer. The goal is to improve validation reconstruction PSNR toward 30 dB while also lowering validation L1.
+You are designing Stage 2 fine-tuning YAML configs for a Cosmos CI16 image tokenizer. The goal is to improve validation reconstruction PSNR toward 32 dB while also lowering validation L1.
 
 Return a complete YAML config only, inside XML tags:
 <name>short_snake_case_name</name>
@@ -33,12 +33,13 @@ Config:
   - `openpanel.enabled: true`
   - `openpanel.project: cosmos-tokenizer`
   - `openpanel.name` should be a concise candidate label such as `mse6_l1_06_charb01_noaug`
-  - include tags: `asi`, `asi-evolve`, `psnr-target-30`, `clean_64`
+  - include tags: `asi`, `asi-evolve`, `psnr-target-32`, `clean_64`
 - Prefer PSNR-aligned recipes before perceptual-only recipes.
 - Strong candidates often use a blend of L1 plus MSE or Charbonnier, with small edge/SSIM terms.
 - Use adversarial and Gram loss only when there is a clear reason; high adversarial weight can reduce PSNR.
 - Keep augmentations mild. Clean reconstruction validation usually prefers limited distribution shift.
 - Use scouting evaluation budgets: `stage2.max_iterations` between 1000 and 3000; prefer 2000-3000 when a recipe may need time to separate from noise.
 - Ensure validation happens during the run: `stage2.validate_every` should usually be 500 or 1000 and less than or equal to half of `stage2.max_iterations`.
+- The current target is 32 dB. Treat any prior experiment analysis that mentions a 30 dB target as historical context from the older target.
 
 Do not include prose outside the XML tags.
